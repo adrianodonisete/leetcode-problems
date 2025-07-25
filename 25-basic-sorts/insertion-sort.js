@@ -1,0 +1,22 @@
+function insertionSort(arr) {
+	let temp, j;
+	for (let i = 1; i < arr.length; i++) {
+		temp = arr[i];
+		for (j = i - 1; j > -1 && arr[j] > temp; j--) {
+			arr[j + 1] = arr[j];
+		}
+		arr[j + 1] = temp;
+	}
+	return arr;
+}
+
+let myArray = [4, 2, 6, 5, 1, 3];
+insertionSort(myArray);
+console.log(myArray);
+
+/*
+    EXPECTED OUTPUT:
+    ----------------
+    [ 1, 2, 3, 4, 5, 6 ]
+
+*/
