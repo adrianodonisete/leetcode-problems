@@ -53,94 +53,43 @@ class LinkedList {
 	//   |               WRITE YOUR CODE HERE                |
 	//   | Description:                                      |
 	//   | - This method sorts the linked list using the     |
-	//   |   bubble sort algorithm.                          |
+	//   |   selection sort algorithm.                       |
 	//   |                                                   |
 	//   | Side Effects:                                     |
 	//   | - The list will be sorted in place, so the        |
 	//   |   original list gets modified.                    |
 	//   |                                                   |
 	//   | Tips:                                             |
-	//   | - The method uses two nested while loops.         |
-	//   | - It swaps adjacent nodes if they are out of      |
-	//   |   order.                                          |
-	//   | - It repeats until the list is sorted.            |
-	//   | - The sortedUntil variable helps to reduce the    |
-	//   |   number of comparisons.                          |
+	//   | - Two pointers, current and innerCurrent, are     |
+	//   |   used to traverse the list.                      |
+	//   | - The smallest node in the unsorted part is       |
+	//   |   found and swapped with the current node.        |
+	//   | - The loop continues until the entire list is     |
+	//   |   sorted.                                         |
 	//   +===================================================+
 
-	bubbleSort22() {
+	selectionSort() {
 		if (this.length < 2) return;
 
-		let temp = this.head;
-		let before = new Node(0);
-		let output = '';
+		let current = this.head;
+		while (current.next) {
+			let smallest = current;
+			let innerCurrent = current.next;
 
-		while (temp) {
-			let sub = temp;
-			while (sub) {
-				if (temp.value > sub.value) {
-					//output += String(`b${before.value}:c${temp.value}:n${sub.value} swap `);
-					// before = sub;
-
-					if (temp == this.head) {
-						//output += String(`t=h `);
-
-						const next = temp.next;
-						temp.next = next?.next;
-						this.head = next;
-						this.head.next = temp;
-					} else {
-						let current = temp;
-						const next = sub;
-
-						output += String(`b${before.value}:s${sub?.value ?? 0} `);
-
-						// output += String(`cn `);
-						// before.next = next;
-						// next.next = current;
-
-						//output += String(`b${next?.value ?? 0}:n${current?.value ?? 0} bn `);
-
-						// before.next = next;
-						// current = next;
-						// next.next = current;
-						// current.next = sub;
-						// sub = temp;
-					}
-
-					if (temp == this.tail) {
-						output += String(`t=t `);
-					}
+			while (innerCurrent) {
+				if (innerCurrent.value < smallest.value) {
+					smallest = innerCurrent;
 				}
-				before = sub;
-				sub = sub.next;
+				innerCurrent = innerCurrent.next;
 			}
-			temp = temp.next;
-			if (temp) {
-				output += '-> ';
+			if (smallest !== current) {
+				const aux = smallest.value;
+				smallest.value = current.value;
+				current.value = aux;
 			}
+			current = current.next;
 		}
-		console.log(output);
-	}
-
-	bubbleSort() {
-		if (this.length < 2) return;
-
-		let sortedUntil = null;
-
-		while (sortedUntil !== this.head.next) {
-			let current = this.head;
-			while (current.next !== sortedUntil) {
-				let next = current.next;
-				if (current.value > next.value) {
-					const aux = current.value;
-					current.value = next.value;
-					next.value = aux;
-				}
-				current = current.next;
-			}
-			sortedUntil = current;
-		}
+		this.tail = current;
 	}
 }
 
@@ -153,7 +102,7 @@ list1.push(2);
 list1.push(1);
 console.log('Sort descending list:');
 list1.printList(); // Should print: 4 -> 3 -> 2 -> 1
-list1.bubbleSort();
+list1.selectionSort();
 list1.printList(); // Should print: 1 -> 2 -> 3 -> 4
 console.log('---------------');
 
@@ -164,7 +113,7 @@ console.log('---------------');
 // list2.push(2);
 // console.log('Sort already sorted list:');
 // list2.printList(); // Should print: 1 -> 2
-// list2.bubbleSort();
+// list2.selectionSort();
 // list2.printList(); // Should print: 1 -> 2
 // console.log('---------------');
 
@@ -177,7 +126,7 @@ console.log('---------------');
 // list3.push(2);
 // console.log('Sort list with random elements:');
 // list3.printList(); // Should print: 3 -> 1 -> 4 -> 2
-// list3.bubbleSort();
+// list3.selectionSort();
 // list3.printList(); // Should print: 1 -> 2 -> 3 -> 4
 // console.log('---------------');
 
@@ -190,7 +139,7 @@ console.log('---------------');
 // list4.push(2);
 // console.log('Sort list with duplicate elements:');
 // list4.printList(); // Should print: 3 -> 3 -> 2 -> 2
-// list4.bubbleSort();
+// list4.selectionSort();
 // list4.printList(); // Should print: 2 -> 2 -> 3 -> 3
 // console.log('---------------');
 
@@ -200,7 +149,7 @@ console.log('---------------');
 // const list5 = new LinkedList(1);
 // console.log('Sort single-element list:');
 // list5.printList(); // Should print: 1
-// list5.bubbleSort();
+// list5.selectionSort();
 // list5.printList(); // Should print: 1
 // console.log('---------------');
 
@@ -212,7 +161,7 @@ console.log('---------------');
 // list6.push(1);
 // console.log('Sort list with negative numbers:');
 // list6.printList(); // Should print: -1 -> -2 -> 1
-// list6.bubbleSort();
+// list6.selectionSort();
 // list6.printList(); // Should print: -2 -> -1 -> 1
 // console.log('---------------');
 
@@ -224,7 +173,7 @@ console.log('---------------');
 // list7.push(1);
 // console.log('Sort list with zeros:');
 // list7.printList(); // Should print: 0 -> 0 -> 1
-// list7.bubbleSort();
+// list7.selectionSort();
 // list7.printList(); // Should print: 0 -> 0 -> 1
 // console.log('---------------');
 
@@ -235,6 +184,6 @@ console.log('---------------');
 // list8.makeEmpty();
 // console.log('Sort empty list:');
 // list8.printList(); // Should print: empty
-// list8.bubbleSort();
+// list8.selectionSort();
 // list8.printList(); // Should print: empty
 // console.log('---------------');
